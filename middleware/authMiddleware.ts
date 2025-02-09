@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import admin from 'firebase-admin'
 
 export const authMiddleware = async (
   req: Request,
@@ -6,9 +7,9 @@ export const authMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    const authHeader = req.headers.authorization
+    const token = req.cookies.token
 
-    if (!authHeader) {
+    if (!token) {
       res
         .status(401)
         .json({ message: 'Unauthorized. No authorization header found.' })
@@ -16,7 +17,9 @@ export const authMiddleware = async (
       return
     }
 
-    console.log('Successfully retrieved authorization header:', authHeader)
+    console.log('Successfully retrieved authorization header:', token)
+
+    await admin.auth().verifyIdToken(token)
 
     next()
   } catch (error) {
