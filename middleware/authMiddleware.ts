@@ -7,7 +7,7 @@ export const authMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.cookies.token
+    const token = req.cookies.token || req.headers.authorization
 
     if (!token) {
       res
