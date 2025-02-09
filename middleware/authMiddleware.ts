@@ -7,7 +7,8 @@ export const authMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.cookies.token || req.headers.authorization
+    const token =
+      req.cookies.token || req.headers.authorization || req.body.token
 
     if (!token) {
       res
@@ -17,7 +18,10 @@ export const authMiddleware = async (
       return
     }
 
-    console.log('Successfully retrieved authorization header:', token)
+    console.log(
+      'Successfully retrieved authorization header:',
+      token.slice(0, 5)
+    )
 
     await admin.auth().verifyIdToken(token)
 
