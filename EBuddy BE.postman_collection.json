@@ -7,7 +7,7 @@
   },
   "item": [
     {
-      "name": "Get Token",
+      "name": "1. Get Token",
       "request": {
         "method": "POST",
         "header": [
@@ -19,7 +19,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"ian@ebuddy.com\",\r\n  \"password\": \"ian@ebuddy.com\",\r\n  \"returnSecureToken\": true\r\n}",
+          "raw": "{\r\n  \"email\": \"ian@ebuddy.com\",\r\n  \"password\": \"YOUR_PASSWORD\",\r\n  \"returnSecureToken\": true\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -27,7 +27,7 @@
           }
         },
         "url": {
-          "raw": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDdFZtgzrkiBX5Na44gVIaSwmceF4XNegU",
+          "raw": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{apiKey}}",
           "protocol": "https",
           "host": ["identitytoolkit", "googleapis", "com"],
           "path": ["v1", "accounts:signInWithPassword"],
@@ -42,7 +42,7 @@
       "response": []
     },
     {
-      "name": "Get All Users",
+      "name": "2. Get All Users",
       "event": [
         {
           "listen": "test",
@@ -94,7 +94,7 @@
           },
           {
             "key": "Authorization",
-            "value": "Bearer {{token}}",
+            "value": "",
             "type": "text"
           }
         ],
@@ -107,7 +107,7 @@
       "response": []
     },
     {
-      "name": "Get Single User",
+      "name": "3. Get Single User",
       "event": [
         {
           "listen": "test",
@@ -159,7 +159,7 @@
           },
           {
             "key": "Authorization",
-            "value": "Bearer {{token}}",
+            "value": "",
             "type": "text"
           }
         ],
@@ -167,6 +167,80 @@
           "raw": "{{localhost}}/api/fetch-user-data/K7fmA7eERwrtKPoyPca4",
           "host": ["{{localhost}}"],
           "path": ["api", "fetch-user-data", "K7fmA7eERwrtKPoyPca4"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Update User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var template = `\r",
+              "<style type=\"text/css\">\r",
+              "    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+              "    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+              "    .tftable tr {background-color:#ffffff;}\r",
+              "    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+              "    .tftable tr:hover {background-color:#e0ffff;}\r",
+              "</style>\r",
+              "\r",
+              "<table class=\"tftable\" border=\"1\">\r",
+              "    <tr>\r",
+              "        <th>Message</th>\r",
+              "        <th>Error Code</th>\r",
+              "        <th>Details</th>\r",
+              "        <th>Metadata</th>\r",
+              "    </tr>\r",
+              "    <tr>\r",
+              "        <td>{{response.message}}</td>\r",
+              "        <td>{{response.error.code}}</td>\r",
+              "        <td>{{response.error.details}}</td>\r",
+              "        <td>{{response.error.metadata}}</td>\r",
+              "    </tr>\r",
+              "</table>\r",
+              "`;\r",
+              "\r",
+              "function constructVisualizerPayload() {\r",
+              "    return { response: pm.response.json() }\r",
+              "}\r",
+              "\r",
+              "pm.visualizer.set(template, constructVisualizerPayload());"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": \"K7fmA7eERwrtKPoyPca4\",\r\n    \"email\": \"test99@gmail.com\",\r\n    \"username\": \"test99\",\r\n    \"purchases\": 10,\r\n    \"balance\": 50000,\r\n    \"sector\": [\r\n        \"healthcare\",\r\n        \"web3\"\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{localhost}}/api/update-user-data/K7fmA7eERwrtKPoyPca4",
+          "host": ["{{localhost}}"],
+          "path": ["api", "update-user-data", "K7fmA7eERwrtKPoyPca4"]
         }
       },
       "response": []

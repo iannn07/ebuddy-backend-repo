@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { USER } from '../entities/user'
 import {
   fetchAllUsersData,
   fetchUserData,
@@ -87,7 +88,42 @@ export const fetchUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
-    const { success, error } = await updateUserData(id, req.body)
+
+    if (!req.body || Object.keys(req.body).length === 0) {
+      console.error('No data provided to update user')
+
+      res.status(400).json({ message: 'No data provided to update user' })
+
+      return
+    }
+
+    const { id: bodyID, email, username, balance, purchases, sector } = req.body
+
+    if (
+      typeof bodyID !== 'string' ||
+      typeof email !== 'string' ||
+      typeof username !== 'string' ||
+      typeof balance !== 'number' ||
+      typeof purchases !== 'number' ||
+      !Array.isArray(sector)
+    ) {
+      console.error('Invalid data provided to update user')
+
+      res.status(400).json({ message: 'Invalid data provided to update user' })
+
+      return
+    }
+
+    const user: USER = {
+      id: bodyID,
+      email,
+      username,
+      balance,
+      purchases,
+      sector,
+    }
+
+    const { success, error } = await updateUserData(id, user)
 
     if (error || !success) {
       console.error('User not found:', error)
