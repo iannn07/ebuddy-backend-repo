@@ -6,8 +6,8 @@ import userRoutes from '../routes/userRoutes'
 
 dotenv.config()
 
-const app: Application = express()
-const PORT = process.env.EXPRESS_PORT || 3000
+export const app: Application = express()
+const PORT = process.env.EXPRESS_PORT || 8080
 
 app.use(express.json())
 app.use(cookieParser())

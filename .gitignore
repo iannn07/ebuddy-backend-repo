@@ -1,3 +1,4 @@
 /node_modules
 .env
-FIREBASE*.json
+/lib
+/config/FIREBASE_SERVICE_ACCOUNT_KEY.json

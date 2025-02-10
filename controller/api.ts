@@ -89,7 +89,8 @@ export const updateUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
 
-    if (!req.body || Object.keys(req.body).length === 0) {
+    // The Object Keys are always have at least 1 key (token)
+    if (!req.body || Object.keys(req.body).length > 1) {
       console.error('No data provided to update user')
 
       res.status(400).json({ message: 'No data provided to update user' })
