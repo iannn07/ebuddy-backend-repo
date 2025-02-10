@@ -90,7 +90,7 @@ export const updateUser = async (req: Request, res: Response) => {
     const { id } = req.params
 
     // The Object Keys are always have at least 1 key (token)
-    if (!req.body || Object.keys(req.body).length > 1) {
+    if (!req.body || Object.keys(req.body).length < 1) {
       console.error('No data provided to update user')
 
       res.status(400).json({ message: 'No data provided to update user' })
@@ -98,7 +98,14 @@ export const updateUser = async (req: Request, res: Response) => {
       return
     }
 
-    const { id: bodyID, email, username, balance, purchases, sector } = req.body
+    const {
+      id: bodyID,
+      email,
+      username,
+      balance,
+      purchases,
+      sector,
+    } = req.body.data
 
     if (
       typeof bodyID !== 'string' ||
